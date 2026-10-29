@@ -1,0 +1,79 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+}
+
+@layer base {
+  :root {
+    --radius: 0.5rem;
+  }
+}
+
+body {
+  font-family: var(--font-work-sans), Cambria, Cochin, Georgia, Times, serif;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: var(--font-quicksand), "Times New Roman", Times, serif;
+  color: #101840;
+}
+
+@keyframes fadeInUp {
+  0% {
+    opacity: 0;
+    transform: translateY(-40px); /* Start below */
+  }
+  20% {
+    opacity: 1;
+    transform: translateY(0); /* Fade in to the original position */
+  }
+  50% {
+    opacity: 1;
+    transform: translateY(10px); /* Fade in to the original position */
+  }
+  80% {
+    opacity: 1;
+    transform: translateY(0); /* Stay in place */
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0); /* Fade out and move above */
+  }
+}
+
+@keyframes fadeOutDown {
+  0% {
+    opacity: 1;
+    transform: translateY(0); /* Start below */
+  }
+  20% {
+    opacity: 0;
+    transform: translateY(20px); /* Fade in to the original position */
+  }
+  80% {
+    opacity: 0;
+    transform: translateY(20px); /* Stay in place */
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(20px); /* Fade out and move above */
+  }
+}
+
+.fade-slide-in {
+  animation: fadeInUp 0.5s forwards; /* Play the fade-in and slide animation */
+}
+
+.fade-slide-out {
+  animation: fadeOutDown 0.5s forwards; /* Play the fade-in and slide animation */
+}

@@ -1,0 +1,122 @@
+"use client";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useState } from "react";
+import { useForm } from "react-hook-form";
+import { toast } from "sonner";
+import { z } from "zod";
+import { Button } from "~/components/ui/button";
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "~/components/ui/form";
+import { Input } from "~/components/ui/input";
+import { cn } from "~/lib/utils";
+
+const formSchema = z.object({
+  email: z.string({ required_error: "Enter your email" }).email(),
+  name: z
+    .string({ required_error: "Enter your username" })
+    .min(2, "Enter your name"),
+  amount: z
+    .string({ required_error: "Enter amount to be donated" })
+    .min(2, "Enter amount to be donated"),
+});
+
+const DonationForm = () => {
+  const form = useForm<z.infer<typeof formSchema>>({
+    resolver: zodResolver(formSchema),
+    defaultValues: {
+      email: "",
+    },
+  });
+  const [loading, setLoading] = useState(false);
+  async function onSubmit(values: z.infer<typeof formSchema>) {
+    toast(JSON.stringify(values));
+  }
+  return (
+    <Form {...form}>
+      <form
+        onSubmit={form.handleSubmit(onSubmit)}
+        className={cn("flex flex-col", "gap-y-4 max-w-2xl px-4 w-full")}
+      >
+        {/* Name */}
+        <FormField
+          control={form.control}
+          name="name"
+          render={({ field }) => (
+            <FormItem className="group flex flex-col space-y-0 px-4 pb-2 pt-4 border rounded-lg justify-center focus-within:border-dark/65 transition-all duration-300 ease-in-out">
+              <FormLabel className="text-base group-focus-within:text-dark/80 text-zinc-800/70 font-semibold transition-all duration-300 ease-in-out">
+                Full Name
+              </FormLabel>
+              <FormControl>
+                <Input
+                  placeholder="Tim Gordon"
+                  {...field}
+                  className="text-base focus-visible:border-0 border-0 focus:border-0 shadow-none focus-visible:ring-0 focus-visible:ring-offset-0 px-0 py-0 bg-transparent"
+                />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        {/* Email */}
+        <FormField
+          control={form.control}
+          name="email"
+          render={({ field }) => (
+            <FormItem className="group flex flex-col space-y-0 px-4 pb-2 pt-4 border rounded-lg justify-center focus-within:border-dark/65 transition-all duration-300 ease-in-out">
+              <FormLabel className="text-base group-focus-within:text-dark/80 text-zinc-800/70 font-semibold transition-all duration-300 ease-in-out">
+                Email
+              </FormLabel>
+              <FormControl>
+                <Input
+                  placeholder="username@domain.com"
+                  {...field}
+                  className="text-base focus-visible:border-0 border-0 focus:border-0 shadow-none focus-visible:ring-0 focus-visible:ring-offset-0 px-0 py-0 bg-transparent"
+                />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        {/* Amount to Donate */}
+        <FormField
+          control={form.control}
+          name="amount"
+          render={({ field }) => (
+            <FormItem className="group flex flex-col space-y-0 px-4 pb-2 pt-4 border rounded-lg justify-center focus-within:border-dark/65 transition-all duration-300 ease-in-out">
+              <FormLabel className="text-base group-focus-within:text-dark/80 text-zinc-800/70 font-semibold transition-all duration-300 ease-in-out">
+                Amount to be donated
+              </FormLabel>
+              <FormControl>
+                <div className="flex items-center gap-x-1">
+                  <span>$</span>
+                  <Input
+                    placeholder="50"
+                    type="number"
+                    {...field}
+                    className="text-base focus-visible:border-0 border-0 focus:border-0 shadow-none focus-visible:ring-0 focus-visible:ring-offset-0 px-0 py-0 bg-transparent"
+                  />
+                </div>
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+
+        <Button
+          variant={"default"}
+          className="bg-primary hover:bg-dark rounded-full w-full self-start md:self-center"
+        >
+          Donate
+        </Button>
+      </form>
+    </Form>
+  );
+};
+
+export default DonationForm;
